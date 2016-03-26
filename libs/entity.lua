@@ -3,47 +3,40 @@ HC = require "libs/HC"
 
 entity = {}
 
-
---Return the angle from an entity's center to a point;
---relative to it's own rotation if rel == true
-function entity:angleTo(x,y,rel)
-    sx, sy = self.shape:center()
-    a = math.atan2(y - sy, x - sx )
-    if rel == true then return a - self.shape:rotation()
-    else return a
-    end
-end
-
-function entity:rotate(dr)
-    self.shape:rotate(range.cap(range.wrap(dr, math.pi), self.rot_speed))
-    self.shape:setRotation(range.wrap(self.shape:rotation(), math.pi))
-end
-
-function entity:applyForce()
-    
-end
-
-function entity:move()
-    --self.shape:move(x,y)
-end
-
-function entity.new()
+function entity.new(shape_type, shape_points, color, stats)
     new = {
-        shape = shape,
-        acl_speed = acl_speed,
-        max_speed = max_speed,
-        rot_speed = rot_speed
-        momentum = momentum
+        shape = HC[shape_type](unpack(shape_points)),
+        color = color,
+        momentum = stats.momentum or 0,
+        acl_speed = stats.acl_speed or 0,
+        max_speed = stats.max_speed or 0,
+        rot_speed = stats.rot_speed or 0
     }
+
+    --Return the angle from an entity's center to a point;
+    --relative to it's own rotation if rel == true
+    function new:angleTo(x,y,rel)
+        sx, sy = self.shape:center()
+        a = math.atan2(y - sy, x - sx )
+        if rel == true then return a - self.shape:rotation()
+        else return a
+        end
+    end
+
+    function new:rotate(dr)
+        self.shape:rotate(range.cap(range.wrap(dr, math.pi), self.rot_speed))
+        self.shape:setRotation(range.wrap(self.shape:rotation(), math.pi))
+    end
+
+    function new:applyForce()
+        
+    end
+
+    function new:move()
+        --self.shape:move(x,y)
+    end
     
+    return new
 end
 
-explorer = {
-    shape = HC.polygon(0,0, 12,0, 16,8, 12,16, 0,16),
-    color = {0, 128, 128, 255},
-    aspeed = 0.5,
-    mspeed = 2,
-    rspeed = 0.12,
-    moment = {0,0},
-}
 return entity
