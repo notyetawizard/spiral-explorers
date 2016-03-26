@@ -27,14 +27,12 @@ function camera:getMousePos(rel)
 end
 
 --Get mouse angle from camera
---[[
-Removed in favor of entity:angleTo, but keeping it around
-until I'm *sure* I don't need it.
+--Depreciated in favor of entity:angleTo, but keeping it around until I'm *sure* I don't need it; good for debugging!
 
 function camera:getMouseAng()
-    mx, my = self:mousePos(true)
+    mx, my = self:getMousePos(true)
     return math.atan2(my, mx)
 end
---]]
+
 
 return camera
