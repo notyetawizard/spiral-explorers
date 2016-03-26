@@ -16,20 +16,25 @@ function camera:set()
     love.graphics.translate(self.xo - self.x, self.yo - self.y)
 end
 
---Get mouse position from camera.
-function camera:mousePos()
+--Get mouse position, adujsting for camera;
+--relative to camera if rel == true
+function camera:getMousePos(rel)
     mx, my = love.mouse.getPosition()
-    return (mx/2) - self.xo, (my/2) - self.yo 
+    mx, my = (mx/2) - self.xo, (my/2) - self.yo
+    if rel == true then return mx, my
+    else return mx + self.x, my + self.y
+    end
 end
+
 --Get mouse angle from camera
-function camera:mouseAng()
-    mx, my = self:mousePos()
+--[[
+Removed in favor of entity:angleTo, but keeping it around
+until I'm *sure* I don't need it.
+
+function camera:getMouseAng()
+    mx, my = self:mousePos(true)
     return math.atan2(my, mx)
 end
---Get mouse position on map
-function camera:mouseAbs()
-    mx, my = love.mouse.getPosition()
-    return (mx/2) - self.xo + self.x, (my/2) - self.yo + self.y 
-end
+--]]
 
 return camera

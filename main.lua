@@ -1,5 +1,6 @@
 HC = require "libs/HC"
 camera = require "libs/camera"
+entity = require "libs/entity"
 --Temporary values--
 
 explorer = {
@@ -7,8 +8,11 @@ explorer = {
     color = {0, 128, 128, 255},
     aspeed = 0.5,
     mspeed = 2,
-    rspeed = 0.12
-    moment = {0,0}
+    rspeed = 0.12,
+    moment = {0,0},
+    rotate = entity.rotate,
+    move = entity.move,
+    angleTo = entity.angleTo
 }
 
 boundary = {
@@ -24,32 +28,6 @@ smobjects = {
     {color = {0, 255, 0 ,255}, shape = HC.rectangle(180,55, 11,203)}
 }
 
-function capRange(n,h,l)
-    if n > h then return h
-    elseif n < (l or -h) then return (l or -h)
-    else return n
-    end
-end
-
-function wrapRange(n,h,l)
-    if n > h then return (l or -h)
-    elseif n < (l or -h) then return (l or h)
-    else return n
-    end
-end
-
---Move these functions into the object class or something.
-function accRotate(self, dr)
-    self.shape:rotate(capRange(wrapRange(dr, math.pi), self.rspeed))
-    self.shape:setRotation(wrapRange(self.shape:rotation(), math.pi))
-end
-
-function accMove(self)
-    
-end
-
-explorer.accRotate = accRotate
-explorer.accMove = accMove
 --Löve functions--
 function love.load()
     --love.mouse.setGrabbed(true)    
@@ -60,15 +38,16 @@ end
 
 function love.update()
     camera.x, camera.y = explorer.shape:center()
-    explorer:accRotate(camera:mouseAng() - explorer.shape:rotation())
+    local mx, my = camera:getMousePos()
+    explorer:rotate(explorer:angleTo(mx, my, true))
 
-    edx, edy = explorer.moment[1], explorer.moment[2]
-    if love.keyboard.isDown(",") then edy = edy - explorer.aspeed end
-    if love.keyboard.isDown("o") then edy = edx + explorer.aspeed end
-    if love.keyboard.isDown("a") then edx = edx - explorer.aspeed end
-    if love.keyboard.isDown("e") then edx = edx + explorer.aspeed end
+    local edx, edy = explorer.moment[1], explorer.moment[2]
+    if love.keyboard.isDown(",") then edy = edy - explorer.acl_speed end
+    if love.keyboard.isDown("o") then edy = edx + explorer.acl_speed end
+    if love.keyboard.isDown("a") then edx = edx - explorer.acl_speed end
+    if love.keyboard.isDown("e") then edx = edx + explorer.acl_speed end
     
-    --explorer.shape:move(edx, edy)
+    --explorer:move(edx, edy)
 end
 
 function love.draw()
