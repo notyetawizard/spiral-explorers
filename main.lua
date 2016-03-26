@@ -5,8 +5,10 @@ camera = require "libs/camera"
 explorer = {
     shape = HC.polygon(0,0, 12,0, 16,8, 12,16, 0,16),
     color = {0, 128, 128, 255},
-    speed = 2,
-    rspeed = 0.05
+    aspeed = 0.5,
+    mspeed = 2,
+    rspeed = 0.12
+    moment = {0,0}
 }
 
 boundary = {
@@ -36,6 +38,18 @@ function wrapRange(n,h,l)
     end
 end
 
+--Move these functions into the object class or something.
+function accRotate(self, dr)
+    self.shape:rotate(capRange(wrapRange(dr, math.pi), self.rspeed))
+    self.shape:setRotation(wrapRange(self.shape:rotation(), math.pi))
+end
+
+function accMove(self)
+    
+end
+
+explorer.accRotate = accRotate
+explorer.accMove = accMove
 --Löve functions--
 function love.load()
     --love.mouse.setGrabbed(true)    
@@ -46,17 +60,13 @@ end
 
 function love.update()
     camera.x, camera.y = explorer.shape:center()
-    termpal = camera:mouseAng() - explorer.shape:rotation()
-    explorer.shape:rotate(capRange(wrapRange(termpal, math.pi), explorer.rspeed))
-    explorer.shape:setRotation(wrapRange(explorer.shape:rotation(), math.pi))
+    explorer:accRotate(camera:mouseAng() - explorer.shape:rotation())
 
-print(camera:mouseAng(), explorer.shape:rotation(), wrapRange(termpal, math.pi))
---os.execute("sleep 0.05")
-
-    if love.keyboard.isDown(",") then edy = edy - explorer.speed end
-    if love.keyboard.isDown("o") then edy = edx + explorer.speed end
-    if love.keyboard.isDown("a") then edx = edx - explorer.speed end
-    if love.keyboard.isDown("e") then edx = edx + explorer.speed end
+    edx, edy = explorer.moment[1], explorer.moment[2]
+    if love.keyboard.isDown(",") then edy = edy - explorer.aspeed end
+    if love.keyboard.isDown("o") then edy = edx + explorer.aspeed end
+    if love.keyboard.isDown("a") then edx = edx - explorer.aspeed end
+    if love.keyboard.isDown("e") then edx = edx + explorer.aspeed end
     
     --explorer.shape:move(edx, edy)
 end

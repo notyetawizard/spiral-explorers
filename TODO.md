@@ -16,13 +16,14 @@ Add some things to hit
 - set up pixel collision within tiles
     
 ~~Set camera~~
-- pseudo centered on explorer, slight offset for cursor
+- ~~pseudo centered on explorer,~~ slight offset for cursor
 - set camera as a class; have multiples.
     
 Basic level formating
 - floor, walls
 - enemies, spawners with rules
 - objects, doors
+- create object classes for all of it
     
 A few enemies
 - (slimes first? :wink:)
@@ -32,6 +33,8 @@ A few enemies
 - big and slow, AOE
     
 Acceleration, instead of raw movement.
+- ~~Accelerated rotation~~
+- Accelerated movement
 
 Gun and redo projectile objects if needed
     
@@ -39,7 +42,7 @@ Reconsider art direction
 - 2.5D? Voxel 3D? Proper 3D?
 - I think I'll stick to 2.5D, with an entirely 2D data set. This should help avoid some of the problems Spiral knights had with collisions on it's Z axis!
 - Recode with flat data layer, and with pretty 2.5d/layer
-- Tiles? Isometric?
+- Not data-tiled; levels are hand crafted over 2D polygonal collision maps, any tiling is purely visual
 
 Puzzle and trap tiles
 - buttons, switches, gates
