@@ -7,6 +7,7 @@
     note, can't do free rotation in with 2.5d sprites
     shouldn't do sprited rotation with 3D models.~~
     
+    
 Draw sword telegraph in front of explorer
 - move it in and out slightly based on mouse distance
 - click and animate
@@ -18,14 +19,16 @@ Draw sword telegraph in front of explorer
 ~~Set camera~~
 - ~~pseudo centered on explorer,~~ slight offset for cursor
 - set camera as a class; have multiples.
-    
+
+~~Create object classes for stuff~~
+- Fix entity class, which is currently nested in the shape class despite the fact that I have not a fucking clue as to what is going on in there, and I may well be writing over *any number of important things*.
+
 Basic level formating
 - floor, walls
 - enemies, spawners with rules
 - objects, doors
-- create object classes for all of it
-- add world friction; floor objects that modify (move out of entity.friction!)
-    
+- add world friction; floor objects that modify (move out of entity.friction!) 
+
 A few enemies
 - (slimes first? :wink:)
 - small and fast
@@ -36,7 +39,7 @@ A few enemies
 Acceleration, instead of raw movement.
 - ~~Accelerated rotation~~
 - Change rotation to *not* wrap? If you spin your mouse around your guy three times, she spins three times too!
-- Accelerated movement
+- ~~Accelerated movement~~
 
 Gun and redo projectile objects if needed
     

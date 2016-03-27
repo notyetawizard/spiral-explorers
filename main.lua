@@ -9,17 +9,17 @@ explorer_color = {0, 128, 128, 255}
 explorer_stats = {mass = 10, mov_force = 1.8, max_velocity = 6, rot_force = 0.12}
 
 smobjects = {
-    {color = {0, 255, 0 ,255}, shape = HC.circle(234,125, 16)},
-    {color = {0, 255, 0 ,255}, shape = HC.circle(50,50, 30)},
-    {color = {0, 255, 0 ,255}, shape = HC.circle(150,125, 10)},
-    {color = {0, 255, 0 ,255}, shape = HC.rectangle(89,20, 64,20)},
-    {color = {0, 255, 0 ,255}, shape = HC.rectangle(180,55, 11,203)}
+    entity.new(234, 125, "circle", {0, 0, 16}, {0, 255, 0 ,255}, explorer_stats),
+    entity.new(20, 50, "circle", {0, 0, 30}, {0, 255, 0 ,255}, explorer_stats),
+    entity.new(150, 125, "circle", {0, 0, 10}, {0, 255, 0 ,255}, explorer_stats),
+    entity.new(89, 20, "rectangle", {0, 0, 64, 20}, {0, 255, 0 ,255}, explorer_stats),
+    entity.new(180, 155, "rectangle", {0, 0, 11, 203}, {0, 255, 0 ,255}, explorer_stats)
 }
 
 --Löve functions--
 function love.load()
     --love.mouse.setGrabbed(true)    
-    world = HC.new(64)
+    HC.resetHash(64)
     
     explorer = entity.new(100, 100, "polygon", explorer_shape, explorer_color, explorer_stats)
     
@@ -34,7 +34,11 @@ end
 
 function love.update()
     control.updateKeys()
-    explorer:move()
+    --explorer:update()
+    
+    for k,v in pairs(smobjects) do
+        v:update()
+    end
     
     control.updateMouse()
     explorer:rotateTo(control.dx, control.dy)
@@ -42,7 +46,7 @@ function love.update()
     --watcher looks at explorer
     watcher:rotateTo(explorer.x, explorer.y)
     
-    camera.x, camera.y = explorer.shape:center()
+    camera.x, camera.y = explorer:center()
 end
 
 function love.draw()
@@ -50,6 +54,6 @@ function love.draw()
     
     for k,v in pairs(smobjects) do
         love.graphics.setColor(unpack(v.color))
-        v.shape:draw("line")
+        v:draw("line")
     end
 end
