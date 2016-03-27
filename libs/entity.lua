@@ -9,46 +9,43 @@ function entity.new(x, y, shape_type, shape_points, color, stats)
         y = y,
         shape = HC[shape_type](unpack(shape_points)),
         color = color,
-        mx = stats.mx or 0,
-        my = stats.my or 0,
-        acl_speed = stats.acl_speed or 0,
-        max_speed = stats.max_speed or 0,
-        rot_speed = stats.rot_speed or 0
+        vx = stats.vx or 0,
+        vy = stats.vy or 0,
+        mass = stats.mass or 0,
+        mov_force = stats.mov_force or 0,
+        max_velocity = stats.max_velocity or 0,
+        rot_force = stats.rot_force or 0
     }
     new.shape:moveTo(new.x, new.y)
-
-    --Return the angle from an entity's center to a point;
-    --relative to it's own rotation if rel == true
-    --NEEDS A REWRITE
-    --[[
-    function new:angleTo(x,y,rel)
-        if rel == true then return gmath.angleTo(x,y) - self.shape:rotation()
-        else return gmath.angleTo(x,y)
-        end
-    end
     
-    function new:distanceTo(x,y)
-        return gmath.distanceTo(x,y)
-    end
-    --]]
-    
-    function new:push(angle, magnitude)
-        mx, my = gmath.vectorEnd(angle, magnitude)
-        self.mx = self.mx + mx 
-        self.my = self.my + my
+    function new:push(a,d)
+        dx, dy = gmath.vectorEnd(a, d/self.mass)
+        self.vx = self.vx + dx 
+        self.vy = self.vy + dy
     end
 
-    function new:rotateTo(mx, my)
-        dr = gmath.angleTo(self.x, self.y, mx, my) - self.shape:rotation()
-        self.shape:rotate(gmath.rangeCap(gmath.rangeWrap(dr, math.pi), self.rot_speed))
+    function new:rotateTo(x,y)
+        dr = gmath.angleTo(self.x, self.y, x, y) - self.shape:rotation()
+        self.shape:rotate(gmath.rangeCap(gmath.rangeWrap(dr, math.pi), self.rot_force))
         --correct for shape over rotating;
         --there is almost *definitely* a better way
         self.shape:setRotation(gmath.rangeWrap(self.shape:rotation(), math.pi))
     end
 
+    new.friction = 0.98
+    
     function new:move()
-        self.shape:move(gmath.distanceTrim(self.max_speed, self.mx, self.my))
-        self.mx, self.my = self.mx*0.8, self.my*0.8
+        --if there's a collision, stop
+        --cast ray before move, to check for collision and stop *just* before.
+        --maybe apply force from collision to object, like a bounce?
+        --or a "normal force" or whatever
+        --push other objects on collision, if pushable
+        
+        self:push(gmath.angleTo(self.vx, self.vy), -gmath.distanceTo(self.vx, self.vy)*self.friction)
+        --trim velocity *and* momentum to prevent stuff from going too fast;
+        --may need to change it?
+        self.vx, self.vy = gmath.distanceTrim(self.max_velocity, self.vx, self.vy)
+        self.shape:move(self.vx, self.vy)
         self.x, self.y = self.shape:center()
     end
     

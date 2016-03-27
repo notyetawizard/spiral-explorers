@@ -1,23 +1,21 @@
+gmath = require "libs/gmath"
+
 control = {}
 
 function control.updateMouse()
-    control.mx, control.my = camera:getMousePos()
+    control.dx, control.dy = camera:getMousePos()
 end
 
 function control.updateKeys()
-    if love.keyboard.isDown(",") then
-        --explorer.my = explorer.my - explorer.acl_speed
-        explorer:push(camera.north, explorer.acl_speed)
-    end
-    if love.keyboard.isDown("o") then
-        explorer:push(camera.south, explorer.acl_speed)
-    end
-    if love.keyboard.isDown("a") then
-        explorer:push(camera.west, explorer.acl_speed)
-    end
-    if love.keyboard.isDown("e") then
-        explorer:push(camera.east, explorer.acl_speed)
-    end
+    local dx, dy = 0, 0
+    if love.keyboard.isDown(",") then dy = dy - 1 end
+    if love.keyboard.isDown("o") then dy = dy + 1 end
+    if love.keyboard.isDown("a") then dx = dx - 1 end
+    if love.keyboard.isDown("e") then dx = dx + 1 end
+    da = gmath.angleTo(dx, dy)
+    --Normalized for friction; move at predictable speed
+    df = explorer.mov_force * gmath.distanceTo(gmath.distanceTrim(1, dx, dy))
+    explorer:push(da, df + df*explorer.friction)
 end
 
 return control

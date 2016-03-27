@@ -11,7 +11,7 @@ Draw sword telegraph in front of explorer
 - move it in and out slightly based on mouse distance
 - click and animate
     
-Add some things to hit
+~~Add some things to hit~~
 - set up tile reporting; draw some temp tiles
 - set up pixel collision within tiles
     
@@ -24,6 +24,7 @@ Basic level formating
 - enemies, spawners with rules
 - objects, doors
 - create object classes for all of it
+- add world friction; floor objects that modify (move out of entity.friction!)
     
 A few enemies
 - (slimes first? :wink:)
@@ -34,6 +35,7 @@ A few enemies
     
 Acceleration, instead of raw movement.
 - ~~Accelerated rotation~~
+- Change rotation to *not* wrap? If you spin your mouse around your guy three times, she spins three times too!
 - Accelerated movement
 
 Gun and redo projectile objects if needed

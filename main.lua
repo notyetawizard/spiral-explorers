@@ -6,7 +6,7 @@ entity = require "libs/entity"
 
 explorer_shape = {0,0, 12,0, 16,8, 12,16, 0,16}
 explorer_color = {0, 128, 128, 255}
-explorer_stats = {acl_speed = 0.3, max_speed = 2, rot_speed = 0.12}
+explorer_stats = {mass = 10, mov_force = 1.8, max_velocity = 6, rot_force = 0.12}
 
 smobjects = {
     {color = {0, 255, 0 ,255}, shape = HC.circle(234,125, 16)},
@@ -33,15 +33,16 @@ function love.load()
 end
 
 function love.update()
-    camera.x, camera.y = explorer.shape:center()
-    control.updateMouse()
-    explorer:rotateTo(control.mx, control.my)
-    
     control.updateKeys()
     explorer:move()
     
+    control.updateMouse()
+    explorer:rotateTo(control.dx, control.dy)
+    
     --watcher looks at explorer
     watcher:rotateTo(explorer.x, explorer.y)
+    
+    camera.x, camera.y = explorer.shape:center()
 end
 
 function love.draw()
