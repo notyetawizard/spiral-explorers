@@ -3,7 +3,11 @@ local camera = {
     y = 0,
     z = 2,
     w = love.graphics.getWidth(),
-    h = love.graphics.getHeight()
+    h = love.graphics.getHeight(),
+    east = 0,
+    south = math.pi/2,
+    west = math.pi,
+    north = -math.pi/2    
 }
 
 function camera:init()

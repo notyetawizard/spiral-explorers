@@ -31,51 +31,26 @@ function entity.new(x, y, shape_type, shape_points, color, stats)
         return gmath.distanceTo(x,y)
     end
     --]]
-
-    function new:rotate(dr)
-        self.shape:rotate(gmath.rangeCap(gmath.rangeWrap(dr, math.pi), self.rot_speed))
-        self.shape:setRotation(gmath.rangeWrap(self.shape:rotation(), math.pi))
-    end
-
-    function new:applyForce(mx, my)
-        self.mx = self.mx + mx
+    
+    function new:push(angle, magnitude)
+        mx, my = gmath.vectorEnd(angle, magnitude)
+        self.mx = self.mx + mx 
         self.my = self.my + my
     end
 
-    function new:limitMotion()
-        a = gmath.angleTo(self.mx, self.my)
-        d = gmath.rangeCap(gmath.distanceTo(self.mx, self.my), self.max_speed)
-print("a:d", a, d)
-print(math.cos(a)*d, math.sin(a)*d)
-        return math.cos(a)*d, math.sin(a)*d
+    function new:rotateTo(mx, my)
+        dr = gmath.angleTo(self.x, self.y, mx, my) - self.shape:rotation()
+        self.shape:rotate(gmath.rangeCap(gmath.rangeWrap(dr, math.pi), self.rot_speed))
+        --correct for shape over rotating;
+        --there is almost *definitely* a better way
+        self.shape:setRotation(gmath.rangeWrap(self.shape:rotation(), math.pi))
     end
-    
+
     function new:move()
-        self.shape:move(self:limitMotion())
+        self.shape:move(gmath.distanceTrim(self.max_speed, self.mx, self.my))
+        self.mx, self.my = self.mx*0.8, self.my*0.8
         self.x, self.y = self.shape:center()
     end
-
---Tried to solve with sine laws what could be accomplished with addition :/
---Keeping just in case, for now.
---[[
-    function new:applyForce(mag, dir)
-        a = math.pi - (dir - self.dir)
-        nmag = math.sqrt((self.mag^2) + (mag^2) - (2*self.mag*mag*math.cos(a))) 
-        ndir = math.asin(mag*math.sin(a)/nmag)
-        self.mag, self.dir = nmag, ndir
-        print(self.mag, self.dir)
-    end
-
-    function new:move()
-        --cap all momentum;
-        --may want to cap only *movement* instead, and hold the remaining momentum?
-        self.mag = gmath.rangeCap(self.mag, self.max_speed)
-        
-        x = math.sin(self.dir)*self.mag
-        y = math.cos(self.dir)*self.mag
-        self.shape:move(x,y)
-    end
---]]
     
     return new
 end

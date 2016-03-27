@@ -6,16 +6,17 @@ end
 
 function control.updateKeys()
     if love.keyboard.isDown(",") then
-        control.entity:applyForce(0, -control.entity.acl_speed)
+        --explorer.my = explorer.my - explorer.acl_speed
+        explorer:push(camera.north, explorer.acl_speed)
     end
     if love.keyboard.isDown("o") then
-        control.entity:applyForce(0, control.entity.acl_speed)
+        explorer:push(camera.south, explorer.acl_speed)
     end
     if love.keyboard.isDown("a") then
-        control.entity:applyForce(-control.entity.acl_speed, 0)
+        explorer:push(camera.west, explorer.acl_speed)
     end
     if love.keyboard.isDown("e") then
-        control.entity:applyForce(control.entity.acl_speed, 0)
+        explorer:push(camera.east, explorer.acl_speed)
     end
 end
 
