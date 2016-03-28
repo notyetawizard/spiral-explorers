@@ -43,6 +43,8 @@ Puzzle and trap tiles
 level generation
 - handcrafted rooms, hallways
 - determine how many and piece together
+- actually, it might be nice to skip halways altogether; they were occasionally far too long in spiral knights, and you would spend a long time just walkin back and forth down them for the occasional treasure room. The same linking effect could be accomplished with some kind of teleporter, keeping the flow of game play up. Perhaps like the matrix nodes in shadowrun?
+- *handcrafted* hallways, of course, and even telelinked rooms that are just hallways could still exist where the setting calls for it!
 
 Create items
 - rock paper scissors (neutral) advantage system
