@@ -20,14 +20,14 @@ function entity.new(x, y, shape_type, shape_points, color, stats)
     new.max_velocity = stats.max_velocity or 0
     new.rot_force = stats.rot_force or 0
     
-    function new:push(a,d)
+    function new:push(a, d)
         dx, dy = gmath.vectorEnd(a, d/self.mass)
         self.vx = self.vx + dx 
         self.vy = self.vy + dy
     end
 
-    function new:rotateTo(x,y)
-        dr = gmath.angleTo(self.x, self.y, x, y) - self:rotation()
+    function new:rotateTo(x, y)
+        dr = gmath.angleTo(x, y, self.x, self.y) - self:rotation()
         self:rotate(gmath.rangeCap(gmath.rangeWrap(dr, math.pi), self.rot_force))
         --correct for shape over rotating;
         --there is almost *definitely* a better way
