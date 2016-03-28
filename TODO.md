@@ -3,6 +3,9 @@
 Create object classes for stuff
 - Fix entity class, which is currently nested in the shape class despite the fact that I have not a fucking clue as to what is going on in there, and I may well be writing over *any number of important things*.
 - I think it would be nice to rewrite/strip the HC stuff down to what I need and merge it with entities; I should understand what's going on, and this would let me throw in better move functions and such.
+- Triangles, triangles, triangles. I've got this!
+- Add in a "save/load shape/object" feature *post* creation; this will save on having to call whatever the new equivilent to HC.Polygon() to do the math for shape creation each time one is needed. This will be *very* helpful for projectiles.
+- **NOTE:** The longer you wait to do this, the more work it will be to change! However, if you get stuck on it before you have at least a simple game, you might lose interest. Hmm.
 
 Set camera
 - ~~pseudo centered on explorer,~~ slight offset for cursor
