@@ -36,15 +36,15 @@ function love.update()
     control.updateKeys()
     --explorer:update()
     
-    for k,v in pairs(smobjects) do
-        v:update()
-    end
-    
     control.updateMouse()
     explorer:rotateTo(control.dx, control.dy)
     
     --watcher looks at explorer
     watcher:rotateTo(explorer.x, explorer.y)
+    
+    for k,v in pairs(smobjects) do
+        v:update()
+    end
     
     camera.x, camera.y = explorer:center()
 end
