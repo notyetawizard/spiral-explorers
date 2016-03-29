@@ -12,9 +12,10 @@ function control.updateKeys()
     if love.keyboard.isDown("o") then dy = dy + 1 end
     if love.keyboard.isDown("a") then dx = dx - 1 end
     if love.keyboard.isDown("e") then dx = dx + 1 end
-    da = gmath.angleTo(dx, dy)
+    print(dx, dy)
+    local da = gmath.angleTo(dx, dy)
     --Normalized for friction; move at predictable speed
-    df = explorer.mov_force * gmath.distanceTo(gmath.distanceTrim(1, dx, dy))
+    local df = explorer.mov_force * gmath.distanceTo(gmath.distanceTrim(1, dx, dy))
     explorer:push(da, df + df*explorer.friction)
 end
 
