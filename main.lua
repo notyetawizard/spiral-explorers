@@ -7,13 +7,15 @@ entity = require "libs/entity"
 explorer_shape = {0,0, 12,0, 16,8, 12,16, 0,16}
 explorer_color = {0, 128, 128, 255}
 explorer_stats = {mass = 10, mov_force = 1.8, max_velocity = 6, rot_force = 0.12}
+wall_stats = {mass = 10^10, mov_force = 1.8, max_velocity = 6, rot_force = 0.12}
+circle_stats = {mass = 50, mov_force = 1.8, max_velocity = 6, rot_force = 0.12}
 
 smobjects = {
-    entity.new(234, 125, "circle", {0, 0, 16}, {0, 255, 0 ,255}, explorer_stats),
-    entity.new(20, 50, "circle", {0, 0, 30}, {0, 255, 0 ,255}, explorer_stats),
-    entity.new(150, 125, "circle", {0, 0, 10}, {0, 255, 0 ,255}, explorer_stats),
-    entity.new(89, 20, "rectangle", {0, 0, 64, 20}, {0, 255, 0 ,255}, explorer_stats),
-    entity.new(180, 155, "rectangle", {0, 0, 11, 203}, {0, 255, 0 ,255}, explorer_stats)
+    entity.new(234, 125, "circle", {0, 0, 16}, {0, 255, 0 ,255}, circle_stats),
+    entity.new(20, 50, "circle", {0, 0, 30}, {0, 255, 0 ,255}, circle_stats),
+    entity.new(150, 125, "circle", {0, 0, 10}, {0, 255, 0 ,255}, circle_stats),
+    entity.new(89, 20, "rectangle", {0, 0, 64, 20}, {0, 255, 0 ,255}, wall_stats),
+    entity.new(180, 155, "rectangle", {0, 0, 11, 203}, {0, 255, 0 ,255}, wall_stats)
 }
 
 --Löve functions--
